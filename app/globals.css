@@ -1,0 +1,480 @@
+/* RecruitU — design system
+ *
+ * Identity: institutional campus-portal red/black/white, borrowed from the
+ * MyCareer platform RecruitU is embedded in (ref: atlantisuniversity.edu) —
+ * bold saturated red as the signal color, near-black ink, square-cornered
+ * surfaces, one unified sans (Open Sans) carrying both headings and body.
+ * The signature motif is still the two-dimension model made visible: outcome
+ * as a filled progress track / aggregate funnel, prep as a row of
+ * presence/absence chips, and fit expressed as a radial dial rather than a
+ * bare number — that structure is unchanged, only the surface skin is new.
+ */
+
+:root {
+  --paper: #f5f5f5;
+  --surface: #ffffff;
+  --ink: #231f20;
+  --ink-soft: #5c5859;
+  --ink-faint: #8a8586;
+  --line: #e2e2e2;
+  --line-strong: #c9c9c9;
+
+  --accent: #ea1c24;      /* institutional red — signal, not decoration */
+  --accent-ink: #a3141a;
+  --accent-wash: #fbe9ea;
+  --accent-wash-strong: #f6d2d4;
+
+  --gold: #c68a3b;        /* reserved: strong-match highlights only */
+  --gold-wash: #f7ecd9;
+
+  /* fit-tier colors only — a distinct scale from --good/--warn/--danger
+     (the requirement-by-requirement verdict colors), since a "Reach" score
+     must never read as an alarm the way --danger would. Vibrant green is
+     teal-shifted rather than pure green — validated against --gold via
+     dataviz's palette checker (protan ΔE was 1.7, essentially indistinguishable,
+     until shifted cooler; now 9.7, clean pass on all four checks). */
+  --tier-vibrant-green: #0b8f7a;
+  --tier-vibrant-green-wash: #e1f3ef;
+  --tier-pastel-green: #6dbf8b;
+  --tier-pastel-green-wash: #ecf8f0;
+  --tier-reach-amber: #d4a017;
+  --tier-reach-amber-wash: #faf1da;
+
+  --warn: #b06a1e;
+  --warn-wash: #f7ecdd;
+  --danger: #a23b3b;
+  --danger-wash: #f8e8e6;
+  --good: #2f7d4f;
+  --good-wash: #e5f2e9;
+
+  --radius: 3px;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --shadow: 0 1px 2px rgba(35, 31, 32, 0.05), 0 4px 16px rgba(35, 31, 32, 0.05);
+  --shadow-md: 0 2px 6px rgba(35, 31, 32, 0.06), 0 8px 24px rgba(35, 31, 32, 0.06);
+  --shadow-lg: 0 12px 32px rgba(35, 31, 32, 0.11);
+
+  --font-display: var(--font-sans), system-ui, sans-serif;
+  --font-body: var(--font-sans), system-ui, sans-serif;
+  --font-mono: var(--font-mono-raw), ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body { padding: 0; margin: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.005em; margin: 0; }
+h1 { font-size: 2rem; line-height: 1.1; font-weight: 800; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.05rem; }
+
+a { color: var(--accent-ink); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+/* layout */
+.shell { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+.stack { display: flex; flex-direction: column; }
+.row { display: flex; align-items: center; }
+.between { justify-content: space-between; }
+.wrap { flex-wrap: wrap; }
+
+/* card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 22px;
+}
+
+/* interactive card — the dashboard job list. Static cards elsewhere (profile,
+   prep panels) stay on plain .card so they don't imply click-affordance. */
+a.card-link {
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 160ms, border-color 160ms, transform 160ms;
+}
+a.card-link:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--line-strong);
+  transform: translateY(-1px);
+}
+
+/* buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: inherit; font-weight: 700;
+  padding: 10px 18px; border-radius: var(--radius-sm); border: 1px solid transparent;
+  cursor: pointer; text-decoration: none; line-height: 1;
+  text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.85rem;
+  transition: background 120ms, border-color 120ms, transform 60ms, box-shadow 120ms;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: var(--shadow); }
+.btn-primary:hover { background: var(--accent-ink); box-shadow: var(--shadow-md); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn-ghost:hover { border-color: var(--line-strong); }
+.btn:disabled { opacity: 0.55; cursor: default; box-shadow: none; }
+
+/* a smaller, quieter action — "Regenerate", "Rescore" and the like */
+.btn-quiet {
+  font-family: var(--font-mono); font-size: 0.78rem;
+  background: none; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  padding: 7px 13px; color: var(--ink-soft); cursor: pointer; transition: all 120ms;
+}
+.btn-quiet:hover { border-color: var(--line-strong); color: var(--ink); }
+.btn-quiet:disabled { opacity: 0.55; cursor: default; }
+
+.icon-btn {
+  background: none; border: 1px solid var(--line); border-radius: 6px;
+  width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center;
+  color: var(--ink-faint); cursor: pointer; font-size: 0.8rem; flex-shrink: 0;
+}
+.icon-btn:hover { border-color: var(--line-strong); color: var(--ink); }
+
+/* dashed "add a new item" affordance — experience, education, and the
+   like — visually distinct from a normal action button. */
+.add-dashed {
+  width: 100%; padding: 12px; border-radius: var(--radius-sm);
+  border: 1.5px dashed var(--line-strong); background: none; color: var(--ink-faint);
+  font-weight: 600; font-size: 0.86rem; cursor: pointer; transition: all 120ms;
+  text-align: center;
+}
+.add-dashed:hover { border-color: var(--accent); color: var(--accent-ink); background: var(--accent-wash); }
+
+/* fields */
+label { display: block; font-weight: 550; margin-bottom: 6px; font-size: 0.9rem; }
+input[type="text"], input[type="email"], input[type="password"], input[type="url"],
+textarea, select {
+  width: 100%; font: inherit; color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 10px 12px;
+}
+textarea { min-height: 180px; resize: vertical; }
+input:focus, textarea:focus, select:focus {
+  outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent);
+}
+.field + .field { margin-top: 16px; }
+.field label.compact {
+  font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--ink-faint); font-weight: 500;
+}
+.hint { color: var(--ink-soft); font-size: 0.85rem; }
+.error { color: var(--danger); font-size: 0.88rem; margin-top: 8px; }
+
+/* nav */
+.topbar { border-bottom: 1px solid var(--line); background: var(--surface); position: sticky; top: 0; z-index: 5; }
+.brand { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; letter-spacing: -0.01em; display: flex; align-items: center; gap: 7px; }
+.brand span { color: var(--accent); }
+.brand-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-wash); }
+.navlink { color: var(--ink-soft); text-decoration: none; padding: 6px 10px; border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 550; transition: background 120ms, color 120ms; }
+.navlink:hover { color: var(--ink); background: var(--paper); }
+.navlink.current { color: var(--accent-ink); background: var(--accent-wash); }
+
+/* platform badge — marks RecruitU as a tool living inside the MyCareer
+   portal, sitting right next to the RecruitU wordmark rather than replacing
+   it: RecruitU is still the thing being used, MyCareer is the frame it's
+   used within. */
+.platform-badge {
+  display: inline-flex; align-items: center;
+  font-family: var(--font-sans, var(--font-body)); font-size: 0.66rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: #fff; background: var(--accent);
+  padding: 4px 8px; border-radius: var(--radius-sm); line-height: 1;
+}
+.platform-divider { width: 1px; height: 18px; background: var(--line-strong); flex-shrink: 0; }
+
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 560px) { .field-grid { grid-template-columns: 1fr; } }
+
+/* ---- signature: the two-dimension display ---- */
+
+/* Dimension A — outcome, as a filled progress track (read-only summary use,
+   e.g. the dashboard job list). */
+.outcome-labels { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.outcome-labels span {
+  font-family: var(--font-mono); font-size: 0.64rem; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--ink-faint);
+}
+.outcome-labels span.at { color: var(--accent-ink); font-weight: 700; }
+.track { height: 6px; border-radius: var(--radius-sm); background: var(--line); overflow: hidden; }
+.track-fill { height: 100%; background: var(--accent); border-radius: var(--radius-sm); transition: width 200ms; }
+.track-fill.exit { background: var(--danger); }
+.status-tag {
+  font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 4px 10px; border-radius: var(--radius-sm); font-weight: 700; display: inline-block;
+}
+.status-tag.rejected, .status-tag.withdrawn { color: var(--danger); background: var(--danger-wash); }
+.status-tag.no_response { color: var(--ink-faint); background: var(--paper); }
+
+/* Outcome, as an interactive segmented control (the job page — click any
+   stage to set it). Reuses .rung's old naming since every consumer already
+   passes these classes; only the values changed. */
+.ladder { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.rung {
+  font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  border: 1px solid var(--line); color: var(--ink-faint); background: var(--surface);
+  cursor: pointer; transition: all 120ms;
+}
+.rung.done { border-color: var(--accent); color: var(--accent-ink); background: var(--accent-wash); }
+.rung.at { border-color: var(--accent); color: #fff; background: var(--accent); font-weight: 700; }
+.rung.exit { border-color: var(--danger); color: var(--danger); background: var(--danger-wash); border-style: solid; }
+.rung:not(.at):not(.exit):hover { border-color: var(--line-strong); color: var(--ink); }
+
+/* Dimension B — prep chips (presence / absence) */
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip {
+  font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.02em;
+  padding: 3px 8px; border-radius: 6px; border: 1px dashed var(--line); color: var(--ink-soft);
+}
+.chip.on { border-style: solid; border-color: var(--accent); color: var(--accent-ink); background: var(--accent-wash); }
+
+/* removable chip editor (profile: skills / languages / certifications /
+   licenses) — a real add/remove control instead of a raw textarea. */
+.chip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 620px) { .chip-grid { grid-template-columns: 1fr; } }
+.chip-panel { padding: 18px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper); }
+.chip-panel h3 { font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; margin: 0 0 10px; }
+.chip-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.chip-item {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 4px 6px 4px 11px;
+}
+.chip-item .x {
+  width: 15px; height: 15px; border-radius: 50%; border: none; background: none; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center; color: var(--ink-faint);
+  font-size: 0.7rem; cursor: pointer; line-height: 1;
+}
+.chip-item .x:hover { background: var(--danger-wash); color: var(--danger); }
+.chip-add { display: flex; gap: 6px; align-items: center; }
+.chip-add input { flex: 1; border-radius: var(--radius-sm); padding: 7px 10px; font-size: 0.82rem; }
+.chip-add button {
+  border: none; background: var(--accent); color: #fff; border-radius: var(--radius-sm);
+  width: 30px; height: 30px; font-weight: 700; cursor: pointer; flex-shrink: 0; font-size: 1rem;
+}
+.chip-add button:hover { background: var(--accent-ink); }
+.chip-add button:disabled { opacity: 0.5; cursor: default; }
+.empty-note { font-size: 0.8rem; color: var(--ink-faint); font-style: italic; margin: 0 0 10px; }
+
+/* fit dial — a radial ring replacing the old bare number. Percentage is
+   drawn via stroke-dasharray/offset computed in the component (JS knows the
+   score; CSS only supplies the static ring). */
+.dial-wrap { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.dial { position: relative; flex-shrink: 0; }
+.dial svg { transform: rotate(-90deg); display: block; }
+.dial-track { fill: none; stroke: var(--line); }
+.dial-value { fill: none; stroke-linecap: round; transition: stroke-dashoffset 300ms; }
+.dial-center {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.dial-num { font-family: var(--font-display); font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
+.dial-of100 { font-family: var(--font-mono); color: var(--ink-faint); }
+
+/* fit match label — the plain-language read, so the number never has to
+   carry the whole verdict on its own (a "52/100" reads as failing no
+   matter how it's calibrated; "Worth Pursuing" doesn't). */
+.match-label { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; line-height: 1.1; }
+.match-strong-match { color: var(--gold); }
+.match-good-fit { color: var(--tier-vibrant-green); }
+.match-worth-pursuing { color: var(--tier-pastel-green); }
+.match-reach { color: var(--tier-reach-amber); }
+
+/* fit category pill — dashboard list only: just the tier, no dial/number.
+   A number (or a ring implying one) competes for attention across a list of
+   many jobs; the category alone is what you actually scan for there. The
+   job page's own fit panel keeps the full dial — that's a deliberate
+   single-job deep-dive where the extra precision earns its space. */
+.match-pill {
+  display: inline-block; font-family: var(--font-mono); font-weight: 700; font-size: 0.72rem;
+  text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;
+  padding: 6px 12px; border-radius: var(--radius-sm); border: 1.5px solid currentColor;
+}
+.match-pill.match-strong-match { background: var(--gold-wash); }
+.match-pill.match-good-fit { background: var(--tier-vibrant-green-wash); }
+.match-pill.match-worth-pursuing { background: var(--tier-pastel-green-wash); }
+.match-pill.match-reach { background: var(--tier-reach-amber-wash); }
+
+.verdict-met { color: var(--good); }
+.verdict-partial { color: var(--warn); }
+.verdict-gap { color: var(--danger); }
+.verdict-unknown { color: var(--ink-soft); }
+.verdict-tag {
+  font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 3px 8px; border-radius: 5px; font-weight: 700; min-width: 62px; text-align: center; flex-shrink: 0;
+}
+.verdict-tag.verdict-met { background: var(--good-wash); }
+.verdict-tag.verdict-partial { background: var(--warn-wash); }
+.verdict-tag.verdict-gap { background: var(--danger-wash); }
+.verdict-tag.verdict-unknown { background: var(--paper); }
+
+.breakdown-item { display: flex; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); align-items: flex-start; }
+.breakdown-item:first-child { border-top: none; }
+.breakdown-req { font-weight: 600; font-size: 0.92rem; }
+.breakdown-ev { color: var(--ink-soft); font-size: 0.85rem; margin-top: 2px; }
+
+.gap-item { padding: 12px 14px; background: var(--warn-wash); border-radius: var(--radius-sm); }
+.gap-item .req { font-weight: 700; color: var(--warn); font-size: 0.88rem; }
+.gap-item .fix { color: var(--ink-soft); font-size: 0.86rem; margin-top: 3px; }
+
+/* aggregate pipeline funnel — dashboard-level, counts jobs per stage across
+   the whole hunt. */
+.funnel-track {
+  display: flex; gap: 2px; height: 32px; border-radius: var(--radius-sm);
+  overflow: hidden; border: 1px solid var(--line); background: var(--paper);
+}
+.funnel-seg {
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600;
+  color: #fff; white-space: nowrap; overflow: hidden; transition: filter 120ms;
+}
+.funnel-seg:hover { filter: brightness(1.08); }
+.funnel-legend { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+.funnel-legend span { font-size: 0.78rem; color: var(--ink-soft); display: flex; align-items: center; gap: 6px; }
+.swatch { width: 9px; height: 9px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+
+/* stat tiles — headline numbers, hairline-divided via a 1px background gap
+   rather than individual tile borders (keeps the sharp institutional look
+   without doubled-up border lines between adjacent tiles). */
+.stat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1px; background: var(--line); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 20px;
+}
+.stat-tile { background: var(--surface); padding: 14px 16px; }
+.stat-number {
+  font-family: var(--font-display); font-weight: 800; font-size: 1.7rem;
+  line-height: 1; font-variant-numeric: tabular-nums; color: var(--ink);
+}
+.stat-label {
+  font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--ink-faint); margin-top: 6px;
+}
+
+/* segmented control — resume template picker and similar single-choice
+   pickers. Built on a hidden radio + label so it's keyboard/native-friendly. */
+.seg-group { display: inline-flex; border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; }
+.seg-group input { position: absolute; opacity: 0; pointer-events: none; }
+.seg-group label {
+  font-family: var(--font-mono); font-size: 0.76rem; padding: 8px 14px; cursor: pointer;
+  color: var(--ink-soft); border-right: 1px solid var(--line); transition: all 120ms; margin: 0;
+  font-weight: 500;
+}
+.seg-group label:last-child { border-right: none; }
+.seg-group input:checked + label { background: var(--accent); color: #fff; }
+.seg-group input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* prep documents — a 2-column grid; the resume and Q&A pack (the two widest
+   previews) span both columns. */
+.prep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.prep-grid > .span-2 { grid-column: 1 / -1; }
+@media (max-width: 640px) { .prep-grid { grid-template-columns: 1fr; } }
+
+/* completeness strip — profile page only: this is a builder, so "what's
+   still missing" is worth surfacing before the detail. */
+.complete-strip { display: flex; gap: 6px; flex-wrap: wrap; }
+.complete-pill {
+  font-family: var(--font-mono); font-size: 0.7rem; padding: 5px 11px; border-radius: var(--radius-sm);
+  border: 1px dashed var(--line-strong); color: var(--ink-faint); display: flex; align-items: center; gap: 5px;
+}
+.complete-pill.done { border-style: solid; border-color: var(--accent); color: var(--accent-ink); background: var(--accent-wash); }
+.complete-pill.done::before { content: "\2713"; font-weight: 700; }
+
+/* experience timeline — profile page. The one section that's genuinely
+   chronological, so it gets the one timeline treatment in the app. */
+.timeline { position: relative; padding-left: 22px; }
+.timeline::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+.tl-item { position: relative; padding-bottom: 22px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-dot { position: absolute; left: -22px; top: 3px; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); }
+.tl-item.past .tl-dot { border-color: var(--line-strong); }
+.tl-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.tl-role { font-weight: 700; font-size: 0.98rem; }
+.tl-meta { font-size: 0.82rem; color: var(--ink-faint); margin-top: 2px; }
+.tl-actions { display: flex; gap: 5px; flex-shrink: 0; }
+.tl-bullets { margin: 8px 0 0; padding-left: 18px; color: var(--ink-soft); font-size: 0.88rem; }
+.tl-bullets li { margin-bottom: 3px; }
+
+/* education list — a lighter divider list, not a timeline (dates alone
+   aren't as continuous a story as a work history is). */
+.edu-item { padding: 12px 0; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.edu-item:first-of-type { border-top: none; padding-top: 0; }
+.edu-title { font-weight: 700; font-size: 0.95rem; }
+.edu-meta { font-size: 0.82rem; color: var(--ink-faint); margin-top: 2px; }
+
+.back-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-mono); font-size: 0.78rem; color: var(--ink-faint);
+  text-decoration: none;
+}
+.back-link:hover { color: var(--accent-ink); }
+
+.req-cols { display: flex; gap: 32px; flex-wrap: wrap; }
+.req-cols > div { flex: 1; min-width: 220px; }
+.req-cols ul { margin: 0; padding-left: 18px; }
+.req-cols li { margin-bottom: 6px; }
+
+/* modal — full content for a prep document, opened from its streamlined
+   inline preview so the job page itself stays scannable. */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(35, 31, 32, 0.55);
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  z-index: 50;
+}
+.modal-panel {
+  background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-lg);
+  max-width: 720px; width: 100%; max-height: 85vh; display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.modal-head {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 18px 22px; border-bottom: 1px solid var(--line); flex-shrink: 0;
+}
+.modal-head h2 { margin: 0; }
+.modal-body { padding: 22px; overflow-y: auto; }
+
+/* clickable preview — the streamlined stand-in for full content, opens the
+   modal above on click. */
+.prep-preview-click {
+  text-align: left; background: none; border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm); padding: 12px 14px; cursor: pointer; width: 100%;
+  color: inherit; font: inherit; transition: border-color 120ms, background 120ms;
+}
+.prep-preview-click:hover { border-color: var(--accent); background: var(--accent-wash); }
+.prep-preview-click .view-full {
+  display: block; margin-top: 8px; font-family: var(--font-mono); font-size: 0.75rem;
+  font-weight: 700; color: var(--accent-ink); text-transform: uppercase; letter-spacing: 0.04em;
+}
+
+/* misc */
+.divider { height: 1px; background: var(--line); border: 0; margin: 20px 0; }
+.muted { color: var(--ink-soft); }
+.tag { font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-soft); }
+.empty {
+  text-align: center; padding: 48px 24px; border: 1px dashed var(--line);
+  border-radius: var(--radius); color: var(--ink-soft); background: var(--surface);
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
